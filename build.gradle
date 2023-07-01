@@ -1,6 +1,7 @@
 plugins {
   id 'java'
   id 'io.quarkus'
+  id 'jacoco'
 }
 
 repositories {
@@ -15,6 +16,7 @@ dependencies {
   implementation 'io.quarkus:quarkus-resteasy'
   testImplementation 'io.quarkus:quarkus-junit5'
   testImplementation 'io.rest-assured:rest-assured'
+  compileOnly 'org.projectlombok:lombok:1.18.28'
 }
 
 group 'com.qubits'
@@ -27,7 +29,15 @@ java {
 
 test {
   systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+
+  // Configure Surefire plugin
+  systemProperty 'surefire.printSummary', 'true'
+  systemProperty 'surefire.useFile', 'false'
+  systemProperty 'surefire.junitPlatformClassLoader', 'true'
+  systemProperty 'surefire.disableXmlReport', 'true'
+  systemProperty 'surefire.useJUnitPlatform', 'true'
 }
+
 compileJava {
   options.encoding = 'UTF-8'
   options.compilerArgs << '-parameters'
